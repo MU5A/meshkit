@@ -423,6 +423,7 @@ func checkIfInstallable(ch *chart.Chart) error {
 // initialization, through withHelmSQLConnectionString.
 func (c *Client) createHelmActionConfig(cfg ApplyHelmChartConfig, restClientGetter genericclioptions.RESTClientGetter) (*action.Configuration, error) {
 	actionConfig := new(action.Configuration)
+	restClientGetter = namespacedRESTClientGetter{RESTClientGetter: restClientGetter, namespace: cfg.Namespace}
 	initialize := func() error {
 		return actionConfig.Init(restClientGetter, cfg.Namespace, string(cfg.HelmDriver), cfg.Logger)
 	}
